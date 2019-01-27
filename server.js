@@ -18,13 +18,14 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-
-// your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+// API endpoint for the fullstack project
+app.get("/api/whoami", function(req, res) {
+  let response = {};
+  response.ipaddress = req.ip;
+  response.language = req.get("Accept-Language");
+  response.software = req.get("User-Agent");
+  res.json(response);
 });
-
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
