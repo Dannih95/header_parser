@@ -14,17 +14,21 @@ app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
 app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (req, res) {
+/**app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
-});
+});**/
+
+// HTML engine set up for variable passing to the html file
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 // API endpoint for the fullstack project
-app.get("/api/whoami", function(req, res) {
+app.get("/", function(req, res) {
   let response = {};
   response.ipaddress = req.ip;
   response.language = req.get("Accept-Language");
   response.software = req.get("User-Agent");
-  res.json(response);
+  res.render(__dirname + "/views/index.html", {name: JSON.stringify(response)});
 });
 
 // listen for requests :)
